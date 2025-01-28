@@ -1,0 +1,30 @@
+# Pastas do ambiente virtual
+venv/
+env/
+__pycache__/
+*.pyc
+
+# Arquivos de configuração de editor
+.vscode/
+.idea/
+*.swp
+
+# Logs e arquivos temporários
+*.log
+*.tmp
+*.bak
+
+# Dependências geradas
+*.egg-info/
+dist/
+build/
+
+# Arquivo de configuração do sistema operacional
+.DS_Store
+Thumbs.db
+
+# Arquivos de banco de dados SQLite (se usar)
+*.db
+
+# Configurações de credenciais (opcional, se criar)
+config/settings_secrets.json
