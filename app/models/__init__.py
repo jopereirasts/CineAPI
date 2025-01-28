@@ -1,0 +1,1 @@
+from .models import Cinema, Filme, Usuario, Diretor, Espectador, Exibicao, TrabalhadorFilme, Avaliacao
