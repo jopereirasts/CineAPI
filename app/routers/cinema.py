@@ -60,3 +60,17 @@ async def update_cinema(cinema_id: int, cinema: CinemaCreate, db: AsyncSession =
     await db.refresh(db_cinema)
     
     return db_cinema
+
+# Função para excluir cinema específico
+@router.delete("/cinemas/{cinema_id}")
+async def delete_cinema(cinema_id: int, db: AsyncSession = Depends(get_db)):
+    # Verifica se o cinema existe
+    result = await db.execute(select(Cinema).filter(Cinema.id == cinema_id))
+    cinema = result.scalar_one_or_none()
+    if not cinema:
+        raise HTTPException(status_code=404, detail="Cinema não encontrado")
+
+    # Deleta o cinema
+    await db.delete(cinema)
+    await db.commit()  # Commit assíncrono
+    return {"detail": f"Cinema com ID {cinema_id} excluído com sucesso"}
