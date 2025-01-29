@@ -4,6 +4,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from pydantic import BaseModel
 from app.models import Cinema
 from config.database import get_db
+from app.models.schemas import CinemaSchema, CinemaCreate
 
 router = APIRouter()
 
@@ -38,3 +39,24 @@ async def get_cinema(cinema_id: int, db: AsyncSession = Depends(get_db)):  # Usa
     if cinema is None:
         raise HTTPException(status_code=404, detail="Cinema não encontrado")
     return cinema
+
+# Função para atualizar cinema específico
+@router.put("/cinemas/{cinema_id}", response_model=CinemaSchema)  # Usando CinemaSchema para a resposta
+async def update_cinema(cinema_id: int, cinema: CinemaCreate, db: AsyncSession = Depends(get_db)):
+    db_cinema = await db.execute(select(Cinema).filter(Cinema.id == cinema_id))
+    db_cinema = db_cinema.scalar_one_or_none()
+    
+    if db_cinema is None:
+        raise HTTPException(status_code=404, detail="Cinema não encontrado")
+    
+    # Atualiza os campos do cinema
+    db_cinema.nome = cinema.nome
+    db_cinema.endereco = cinema.endereco
+    db_cinema.cidade = cinema.cidade
+    db_cinema.estado = cinema.estado
+    db_cinema.capacidade = cinema.capacidade
+
+    await db.commit()
+    await db.refresh(db_cinema)
+    
+    return db_cinema

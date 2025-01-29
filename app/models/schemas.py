@@ -13,7 +13,7 @@ class CinemaBase(BaseModel):
 class CinemaCreate(CinemaBase):
     pass
 
-class Cinema(CinemaBase):
+class CinemaSchema(CinemaBase):
     id: int
 
     class Config:
