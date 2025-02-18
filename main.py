@@ -1,10 +1,12 @@
 from fastapi import FastAPI
 from config.database import init_db
 from app.routers import cinema
+from app.routers import filme
 
 app = FastAPI()
 
 app.include_router(cinema.router)
+app.include_router(filme.router)
 
 @app.on_event("startup")
 async def on_startup():
@@ -13,4 +15,4 @@ async def on_startup():
 
 @app.get("/")
 async def root():
-    return {"message": "Bem-vindo à API de Cinema Independente!"}
+    return {"message": "Bem-vindo à CineAPI, um espaço de Cinema Independente!"}
